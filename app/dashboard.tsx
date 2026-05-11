@@ -7,7 +7,6 @@ import {
     Dimensions,
     Easing,
     ImageBackground,
-    Modal,
     ScrollView,
     Text,
     TouchableOpacity,
@@ -21,7 +20,6 @@ const { width, height } = Dimensions.get("window");
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const router = useRouter();
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
 
   // Animation values
@@ -53,11 +51,6 @@ const Dashboard = () => {
       }),
     ]).start();
 
-    // Show welcome modal for new users
-    const timer = setTimeout(() => {
-      setShowWelcomeModal(true);
-    });
-
     // Continuous pulse animation for CTA buttons
     Animated.loop(
       Animated.sequence([
@@ -83,8 +76,6 @@ const Dashboard = () => {
         easing: Easing.linear,
       }),
     ).start();
-
-    return () => clearTimeout(timer);
   }, []);
 
   const rotateInterpolate = rotateAnim.interpolate({
@@ -421,7 +412,7 @@ const Dashboard = () => {
                     style={{ width: width * 0.27 }}
                     className="bg-[#0B2B1F] aspect-square rounded-[20px] border border-[#C5A059]/10 items-center justify-center mb-4 shadow-sm"
                     activeOpacity={0.7}
-                    onPress={() => router.push(item.route)}
+                    // onPress={() => router.push(item.route)}
                   >
                     <Animated.View
                       style={{
@@ -536,42 +527,6 @@ const Dashboard = () => {
           </TouchableOpacity>
         </View>
       </Animated.View>
-
-      {/* Welcome Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={showWelcomeModal}
-        onRequestClose={() => setShowWelcomeModal(false)}
-      >
-        <View className="flex-1 justify-center items-center bg-black/80">
-          <Animated.View
-            style={{
-              transform: [{ scale: scaleAnim }],
-            }}
-            className="bg-[#0A1C14] rounded-3xl p-8 mx-6 border border-[#C5A059]/30 w-[90%]"
-          >
-            <View className="items-center">
-              <View className="bg-[#C5A059]/20 p-4 rounded-full mb-4">
-                <Ionicons name="sparkles" size={40} color="#C5A059" />
-              </View>
-              <Text className="text-white text-2xl font-bold text-center mb-2">
-                Welcome to Eternal Partner!
-              </Text>
-              <Text className="text-white/60 text-center mb-6">
-                Your journey to finding the perfect match begins here. Complete
-                your profile to get better matches.
-              </Text>
-              <TouchableOpacity
-                className="bg-[#C5A059] px-8 py-3 rounded-full"
-                onPress={() => setShowWelcomeModal(false)}
-              >
-                <Text className="text-black font-bold">Get Started</Text>
-              </TouchableOpacity>
-            </View>
-          </Animated.View>
-        </View>
-      </Modal>
 
       {/* Floating Action Button */}
       <Animated.View
